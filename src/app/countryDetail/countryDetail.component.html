@@ -1,10 +1,4 @@
-<!-- <pre> 
-  <code>
-     {{ country | json }}
-  </code>
-</pre> -->
-
-<mat-card class="example-card">
+<mat-card class="example-card" *ngIf="country; else loading">
   <mat-card-header>
     <mat-card-title class="countryName">{{ country.name }}</mat-card-title>
   </mat-card-header>
@@ -17,3 +11,7 @@
     <button mat-button routerLink="/">Home</button>
   </mat-card-actions>
 </mat-card>
+
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>

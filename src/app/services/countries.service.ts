@@ -1,43 +1,46 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { Country } from "./types/country";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class CountriesService {
-  
-  constructor(private  http : HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  
+  getAll(): Observable<Country> {
+    const headers = new HttpHeaders()
+      .set("x-rapidapi-host", "restcountries-v1.p.rapidapi.com")
+      .set(
+        "x-rapidapi-key",
+        "223126fc80mshd7ba148f4d136adp17b160jsn537936d3c1c1"
+      );
 
-  getAll(){
-    let headers = new HttpHeaders({
-      'x-rapidapi-host':  'restcountries-v1.p.rapidapi.com',
-      'x-rapidapi-key': '223126fc80mshd7ba148f4d136adp17b160jsn537936d3c1c1'
-    });
-    
-   
-    return this.http.get('https://restcountries-v1.p.rapidapi.com/all', { headers: headers })
-    .pipe(
-      map(response => response)
-      //catchError(this.handleError)
+    return this.http.get<Country>(
+      "https://restcountries-v1.p.rapidapi.com/all",
+      {
+        headers
+      }
     );
   }
 
-  getByName(name){
-    let headers = new HttpHeaders({
-      'x-rapidapi-host':  'restcountries-v1.p.rapidapi.com',
-      'x-rapidapi-key': '223126fc80mshd7ba148f4d136adp17b160jsn537936d3c1c1'
-    });
-    
-   
-    return this.http.get('https://restcountries-v1.p.rapidapi.com/name'+'/'+name, { headers: headers })
-    .pipe(
-      map(response => response)
-      //catchError(this.handleError)
+  getByName(name: string): Observable<Country> {
+    const headers = new HttpHeaders()
+      .set("x-rapidapi-host", "restcountries-v1.p.rapidapi.com")
+      .set(
+        "x-rapidapi-key",
+        "223126fc80mshd7ba148f4d136adp17b160jsn537936d3c1c1"
+      );
+
+    // Use these params if api accepts params in format like {host}:{port}/{path}?param=data&param2=data2 etc.
+    // const params = new HttpParams().set("name", name);
+
+    return this.http.get<Country>(
+      `https://restcountries-v1.p.rapidapi.com/name/${name}`,
+      {
+        headers
+      }
     );
   }
-
 }
